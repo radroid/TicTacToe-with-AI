@@ -32,18 +32,25 @@ public class EasyBot extends Players {
 
         System.out.printf("%s is making move.%n", getPlayerName());
 
-        Random random = new Random();
-        int[] coordinates = new int[2];
-        boolean available = false;
-        int rowNum = 0, colNum = 0;
+        String state;
+        GameBoard gameBoardTest = GameBoard.newInstance(gameBoard);
+        int[][] availableCells = gameBoardTest.getAvailableCells();
+        for (int i = 0; i < gameBoardTest.getPlayableMoves(); i++) {
+            gameBoardTest.playMove(availableCells[i]);
+            state = gameBoardTest.getState();
 
-        while (!available) {
-            rowNum = random.nextInt(3);
-            colNum = random.nextInt(3);
-            available = gameBoard.getCurrentBoard()[rowNum][colNum].equals("_");
-        }
-        coordinates[0] = rowNum;
-        coordinates[1] = colNum;
-        return coordinates;
+            if (!"Draw".equals(state) && !"Not finished".equals(state)) {
+                return availableCells[i]; // winning move played
+            } else if ("Draw".equals(state)) {
+                return availableCells[i];
+            } else {
+                gameBoardTest = GameBoard.newInstance(gameBoard);
+            }
+        } // check and return if a win move is possible.
+
+        Random random = new Random();
+        int location = random.nextInt(gameBoard.getPlayableMoves());
+        return availableCells[location]; // return a random move
+
     } // selects a random set of available coordinates and returns.
 }

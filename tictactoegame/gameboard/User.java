@@ -59,7 +59,7 @@ class User extends Players {
                 continue;
             } // check if first character of input is a number
 
-            var charAtEnd = input.trim().charAt(input.length() - 1);
+            char charAtEnd = input.trim().charAt(input.trim().length() - 1);
 
             if (charAtEnd >= '0' && charAtEnd <= '9') {
                 result[1] = Integer.parseInt(inputMat[1]);

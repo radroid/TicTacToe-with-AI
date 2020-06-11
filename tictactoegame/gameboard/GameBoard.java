@@ -23,9 +23,10 @@ public class GameBoard {
         this.gameNumber = 1;
         setState();
     }
-    public GameBoard(GameBoard gameBoardOld) {
+
+    public GameBoard(int gameNumber) {
         this();
-        this.gameNumber = gameBoardOld.getGameNumber() + 1;
+        this.gameNumber = gameNumber + 1;
     }
 
     public static GameBoard newInstance(GameBoard anotherGameBoard) {
@@ -130,7 +131,6 @@ public class GameBoard {
 
     public void setState() {
         boolean win = false;
-        boolean gameFinished;
         String[][] cP = this.currentBoard;
         String cellCent = cP[1][1];
 
@@ -228,7 +228,7 @@ public class GameBoard {
     }
 
     public void decrePlayableMoves() {
-        this.playableMoves--;;
+        this.playableMoves--;
     }
 
     public int[][] getAvailableCells() {

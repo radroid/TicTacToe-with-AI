@@ -1,5 +1,6 @@
 package tictactoegame.gameboard;
 
+import tictactoegame.DBMS;
 import tictactoegame.bots.EasyBot;
 import tictactoegame.bots.MediumBot;
 import tictactoegame.bots.HardBot;
@@ -16,29 +17,8 @@ public class Main {
         boolean endGame = false;
 
         if (!"end".equals(playAssistant.getInputCommand())) {
-            Players playerOne = null;
-            switch (playAssistant.getPlayerOne()) {
-                case "user" -> {
-                    System.out.print("Player One, please enter your name: ");
-                    String playerOneName = scanner.nextLine();
-                    playerOne = new User(playerOneName);
-                }
-                case "easy" -> playerOne = new EasyBot("Easy Bot Player One");
-                case "medium" -> playerOne = new MediumBot("Medium Bot Player One");
-                case "hard" -> playerOne = new HardBot("Hard Bot Player One", "X", "O");
-            } //creating player one
-
-            Players playerTwo = null;
-            switch (playAssistant.getPlayerTwo()) {
-                case "user" -> {
-                    System.out.print("Player Two, please enter your name: ");
-                    String playerOneName = scanner.nextLine();
-                    playerTwo = new User(playerOneName);
-                }
-                case "easy" -> playerTwo = new EasyBot("Easy Bot Player Two");
-                case "medium" -> playerTwo = new MediumBot("Medium Bot Player Two");
-                case "hard" -> playerTwo = new HardBot("Hard Bot Player Two", "O", "X");
-            } //creating player two
+            Players playerOne = createPlayers(playAssistant.getPlayerOne(), true);
+            Players playerTwo = createPlayers(playAssistant.getPlayerTwo(), false);
 
             GameBoard gameBoard = new GameBoard();
 
@@ -50,12 +30,11 @@ public class Main {
                 assert playerOne != null;
                 assert playerTwo != null;
                 String player = playerOne.getPlayerName();
+                int[] moveCoordinates = new int[2];
 
                 if (playAssistant.getGamesPlayed() <= 3) {
                     System.out.println("Remember, you have to enter the coordinates of your next move with a space between them.");
                 }
-
-                int[] moveCoordinates = new int[2];
 
                 while ("Not finished".equals(gameBoard.getState())) {
 
@@ -69,21 +48,28 @@ public class Main {
 
                     gameBoard.playMove(moveCoordinates);
                     gameBoard.printGameBoard();
-                }
-                gameBoard.printState();
+                } // Main gameplay
+
+                gameBoard.printState(); //Print result
+
+                // update records
 
                 playAssistant.setGamesPlayed(playAssistant.getGamesPlayed() + 1);
-
                 if ("X".equals(gameBoard.getState())) {
-                    playerOne.recordWin();
+                    playerOne.recordResult("win");
+                    playerTwo.recordResult("loss");
                 } else if ("O".equals(gameBoard.getState())){
-                    playerTwo.recordWin();
+                    playerOne.recordResult("loss");
+                    playerTwo.recordResult("win");
                 } else {
                     playAssistant.setDrawGames(playAssistant.getDrawGames() + 1);
+                    playerOne.recordResult("draw");
+                    playerTwo.recordResult("draw");
                 }
 
-                playAssistant.printScores(playerOne, playerTwo);
+                playAssistant.printScoreBoard();
 
+                // Play another round
                 if (playAssistant.getGamesToBePlayed() == 1 || playAssistant.getGamesPlayed() >= playAssistant.getGamesToBePlayed()) {
                     System.out.println("Would you like to make one more game? Y/N");
                     endGame = "N".equalsIgnoreCase(scanner.next().trim());
@@ -94,6 +80,46 @@ public class Main {
                 }
             }
         }
+    }
+
+    private static Players createPlayers(String playerType, boolean isPlayerOne) {
+        Scanner scanner = new Scanner(System.in);
+        if (isPlayerOne) {
+            switch (playerType) {
+                case "user" -> {
+                    System.out.print("Player One, please enter your name: ");
+                    String playerOneName = scanner.nextLine();
+                    return new User(playerOneName);
+                }
+                case "easy" -> {
+                    return new EasyBot("Easy Bot Player One");
+                }
+                case "medium" -> {
+                    return new MediumBot("Medium Bot Player One");
+                }
+                case "hard" -> {
+                    return new HardBot("Hard Bot Player One", "X", "O");
+                }
+            } //creating player one
+        } else {
+            switch (playerType) {
+                case "user" -> {
+                    System.out.print("Player Two, please enter your name: ");
+                    String playerOneName = scanner.nextLine();
+                    return new User(playerOneName);
+                }
+                case "easy" -> {
+                    return new EasyBot("Easy Bot Player Two");
+                }
+                case "medium" -> {
+                    return new MediumBot("Medium Bot Player Two");
+                }
+                case "hard" -> {
+                    return new HardBot("Hard Bot Player Two", "O", "X");
+                }
+            } //creating player two
+        }
+        return null;
     }
 }
 
@@ -173,30 +199,9 @@ class PlayAssistant {
         setGamesToBePlayed(scanner.nextInt());
     }
 
-    public void printScores(Players playerOne, Players playerTwo) {
-        boolean isPlayer1Longer = playerOne.getPlayerName().length() > playerTwo.getPlayerName().length();
-        int len = isPlayer1Longer ? playerOne.getPlayerName().length() : playerTwo.getPlayerName().length();
-        int lenMod = Math.abs(playerOne.getPlayerName().length() - playerTwo.getPlayerName().length());
-        for (int i = 0; i < len; i++) {
-            System.out.print(" ");
-        }
-        System.out.printf("\tWin\tDraws%n");
-
-        if (isPlayer1Longer) {
-            System.out.printf("%s\t%d\t%d%n", playerOne.getPlayerName(), playerOne.getWins(), getDrawGames());
-            System.out.printf("%s", playerTwo.getPlayerName());
-            for (int i = 0; i < lenMod; i++) {
-                System.out.print(" ");
-            }
-        System.out.printf("\t%d\t%d%n%n", playerTwo.getWins(), getDrawGames());
-        } else {
-            System.out.printf("%s", playerOne.getPlayerName());
-            for (int i = 0; i < lenMod; i++) {
-                System.out.print(" ");
-            }
-            System.out.printf("\t%d\t%d%n", playerOne.getWins(), getDrawGames());
-            System.out.printf("%s\t%d\t%d%n%n", playerTwo.getPlayerName(), playerTwo.getWins(), getDrawGames());
-        }
+    public void printScoreBoard() {
+        DBMS dbms = new DBMS();
+        dbms.printScores();
     }
 
     // Setters and Getters
@@ -240,3 +245,4 @@ class PlayAssistant {
         return drawGames;
     }
 }
+

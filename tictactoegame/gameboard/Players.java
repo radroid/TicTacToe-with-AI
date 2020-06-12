@@ -8,6 +8,6 @@ public abstract class Players {
 
     public abstract int getWins();
 
-    public abstract void recordWin();
+    public abstract void recordResult(String result);
 
 }

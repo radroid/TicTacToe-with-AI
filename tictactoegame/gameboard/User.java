@@ -1,14 +1,26 @@
 package tictactoegame.gameboard;
 
+import tictactoegame.DBMS;
+
 import java.util.Scanner;
 
 class User extends Players {
 
     private String playerName;
-    private int wins = 0;
+    private int wins;
+    private int draws;
+    private int losses;
 
     public User(String playerName) {
         setPlayerName(playerName);
+        DBMS dbms = new DBMS();
+        if (dbms.playerExists(playerName)) {
+            setWins(dbms.getData(playerName, "Wins"));
+            setDraws(dbms.getData(playerName, "Draws"));
+            setLosses(dbms.getData(playerName, "Losses"));
+        } else {
+            dbms.newPlayer(playerName);
+        }
     }
     public String getPlayerName() {
         return playerName;
@@ -16,11 +28,44 @@ class User extends Players {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+    public void setDraws(int draws) {
+        this.draws = draws;
+    }
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
     public int getWins() {
         return wins;
     }
-    public void recordWin() {
-        this.wins++;
+    public int getDraws() {
+        return draws;
+    }
+    public int getLosses() {
+        return losses;
+    }
+
+    public void recordResult(String result) {
+        DBMS dbms = new DBMS();
+        String player = "\"" + getPlayerName() + "\"";
+        switch (result) {
+            case "win" -> {
+                this.wins++;
+                dbms.updateScore(player, "Wins");
+            }
+            case "draw" -> {
+                this.draws++;
+                dbms.updateScore(player, "Draws");
+            }
+            case "loss" -> {
+                this.losses++;
+                dbms.updateScore(player, "Losses");
+            }
+        }
     }
 
     public int[] getCoordinates(GameBoard gameBoard) {

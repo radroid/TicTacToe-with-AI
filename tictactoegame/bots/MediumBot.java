@@ -43,10 +43,8 @@ public class MediumBot extends Players {
 
             if (!"Draw".equals(state) && !"Not finished".equals(state)) {
                 System.out.println("Winning move played.");
-                gameBoardTest = GameBoard.newInstance(gameBoard);
                 return availableCells[i];
             } else if ("Draw".equals(state)) {
-                gameBoardTest = GameBoard.newInstance(gameBoard);
                 return availableCells[i];
             } else {
                 gameBoardTest = GameBoard.newInstance(gameBoard);
@@ -62,7 +60,6 @@ public class MediumBot extends Players {
             gameBoardTest.playMove(availableCells[i], next2Move);
             state = gameBoardTest.getState();
             if (!"Draw".equals(state) && !"Not finished".equals(state)) {
-                gameBoardTest = GameBoard.newInstance(gameBoard);
                 System.out.println("Blocker move played.");
                 return availableCells[i];
             } else {

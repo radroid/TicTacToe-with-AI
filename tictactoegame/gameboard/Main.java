@@ -90,7 +90,7 @@ public class Main {
                 }
 
                 if (!endGame) {
-                    gameBoard = new GameBoard(gameBoard);
+                    gameBoard = new GameBoard(gameBoard.getGameNumber());
                 }
             }
         }

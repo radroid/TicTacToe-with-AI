@@ -91,22 +91,24 @@ class User extends Players {
 
             len = inputMat.length;
 
+            // check if more than two variables are input.
             if (len == 1 || input.isEmpty() || len > 2) {
                 System.out.println("Please enter only two numbers. Look at the coordinate system defined on the board.");
                 continue;
-            } // check if more than two variables are input.
+            }
 
-            if (input.trim().charAt(0) >= '0' && input.trim().charAt(0) <= '9') {
+            // check if first character of input is a number
+            if (Character.isDigit(input.trim().charAt(0))) {
                 result[0] = Integer.parseInt(inputMat[0]);
                 end1 = true;
             } else {
                 System.out.println("Enter only numerical values.");
                 continue;
-            } // check if first character of input is a number
+            }
 
             char charAtEnd = input.trim().charAt(input.trim().length() - 1);
 
-            if (charAtEnd >= '0' && charAtEnd <= '9') {
+            if (Character.isDigit(charAtEnd)) {
                 result[1] = Integer.parseInt(inputMat[1]);
                 end2 = true;
             } else {

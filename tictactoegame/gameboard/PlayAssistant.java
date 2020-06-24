@@ -21,7 +21,7 @@ class PlayAssistant {
 
         subMenuOne();
         if ("none".equalsIgnoreCase(getPlayerOne())) {
-            System.out.println("Thank you for opening the game! See you later.");
+            exit();
             return;
         }
 
@@ -79,11 +79,12 @@ class PlayAssistant {
                 endGame = "N".equalsIgnoreCase(scanner.next().trim());
             }
 
-            // Resetting or Initialising 'Gameboard' Object
+            // Resetting or Initialising 'GameBoard' Object
             if (!endGame) {
                 gameBoard = new GameBoard(gameBoard.getGameNumber());
             }
         }
+        System.out.println("\n");
     }
     public void printScoreBoard() {
         DBMS dbms = new DBMS();
@@ -91,40 +92,49 @@ class PlayAssistant {
     }
     public void about() {
         Scanner scan = new Scanner(System.in);
-        System.out.printf("Hi! I am your Play Assistant.%n" +
-                "I am here for you outside the game. Okay, so let me tell you how this works.%n%n" +
+        System.out.printf("\n" +
+                "Hi! I am your Play Assistant.%n" +
+                "I am there for you as you navigate through the interface. " +
+                "The developer is responsible to update this section. " +
+                "Let me give you a brief description of the game.%n%n" +
                 "You have this concise main menu with all the available options. " +
                 "Start a new game and see more options.%n" +
                 "- Easy bot: makes a random move and wins if possible.%n" +
                 "- Medium bot: blocks and wins if possible.%n" +
-                "- Hard (undefeatable) bot: It will be a draw if you play well ;D%n" +
+                "- Hard (unbeatable) bot: It will be a draw if you play well ;D%n" +
                 "%nRules are simple. It is tic tac toe, play to win, you know that. " +
                 "If you do not know the rules google: 'tic tac toe rules'%n" +
-                "%nA little something about me:%n" +
+                "%nDEVELOPERS WORD:%n" +
                 "I am a Mechanical (Nuclear) Engineer, who decided to switch careers and am now working towards " +
                 "becoming a Machine Learning Engineer. This is my first big independent project. " +
                 "I have been refactoring and updating the code every time I get an idea that could make this better. " +
                 "A perfect example of one these instances would be: implementation of a database with SQLite. " +
                 "For more information on the updates to the project please visit my Github profile.%n" +
-                "%nIf you want to know more about me, visit: github.com/Raj-007%n" +
-                "%nPlease enter any character to go: ");
+                "%nIf you want to see my other works or want to reach me please visit: https://github.com/RajD007%n" +
+                "%nPlease enter any character to go back to Main Menu: ");
 
-        scan.next();
+        scan.nextLine();
+        System.out.println("\n");
 
+    }
+    public void exit() {
+        System.out.println("\nThank you for opening the game! See you later.");
     }
 
     // Methods to assist Main Menu Commands
     private void subMenuOne() {
         Scanner scan = new Scanner(System.in);
 
-        System.out.print("\n\n1. Human vs. Computer\n" +
+        System.out.print("\n\nGAME SUBMENU ONE\n" +
+                "1. Human vs. Computer\n" +
                 "2. Human vs. Human\n" +
                 "3. Computer vs. Computer\n" +
                 "0. Exit\n");
 
         switch (getValidInput(0, 3)) {
             case 1 -> {
-                System.out.print("\n\n1. Advanced settings\n" +
+                System.out.print("\n\nGAME SUBMENU TWO - YOU VS COMP\n" +
+                        "1. Advanced settings\n" +
                         "2. Standard settings\n" +
                         "\t - Player one = Human\n" +
                         "\t - Computer difficulty level = Medium\n" +
@@ -135,13 +145,15 @@ class PlayAssistant {
                     case 1 -> {
 
                         // Select who plays first
-                        System.out.println("Is player one to be played by the computer? " +
+                        System.out.print("\n\nGAME ADVANCED SETTINGS (1/3)\n" +
+                                "Is player one to be played by the computer? " +
                                 "*The computer will play first\n" +
                                 "(Y/N)");
                         boolean isPlayerOneComp = "Y".equalsIgnoreCase(scan.next().trim());
 
                         // Select the number of games
-                        System.out.println("Select the number of games to be played in the same mode:\n" +
+                        System.out.print("\nGAME ADVANCED SETTINGS (2/3)\n" +
+                                "Select the number of games to be played in the same mode:\n" +
                                 "1. Best of 3\n" +
                                 "2. Best of 5\n" +
                                 "3. Custom\n");
@@ -155,7 +167,8 @@ class PlayAssistant {
                         }
 
                         // Select the difficult level
-                        System.out.println("Select the computer difficulty level:\n" +
+                        System.out.print("\nGAME ADVANCED SETTINGS (3/3)\n" +
+                                "Select the computer difficulty level:\n" +
                                 "1. Easy\n" +
                                 "2. Medium\n" +
                                 "3. Hard\n");
@@ -190,7 +203,8 @@ class PlayAssistant {
                 setPlayerTwo("user");
             }
             case 3 -> {
-                System.out.print("\n\n1. Advanced settings\n" +
+                System.out.print("\n\nGAME SUBMENU TWO - COMP VS COMP\n" +
+                        "1. Advanced settings\n" +
                         "2. Standard settings\n" +
                         "\t - Player one = Easy computer\n" +
                         "\t - Player two = Medium computer\n" +
@@ -199,9 +213,9 @@ class PlayAssistant {
 
                 switch (getValidInput(0, 2)) {
                     case 1 -> {
-
                         // Select the number of games
-                        System.out.println("Select the number of games to be played in the same mode:\n" +
+                        System.out.print("\n\nGAME ADVANCED SETTINGS (1/2)\n" +
+                                "Select the number of games to be played in the same mode:\n" +
                                 "1. Best of 3\n" +
                                 "2. Best of 5\n" +
                                 "3. Custom\n");
@@ -215,19 +229,20 @@ class PlayAssistant {
                         }
 
                         // Select the difficult level
-                        System.out.println("Select the computer difficulty level:\n" +
+                        System.out.print("\nGAME ADVANCED SETTINGS (2/2)\n" +
+                                "Select the computer difficulty level:\n" +
                                 "1. Easy\n" +
                                 "2. Medium\n" +
                                 "3. Hard\n");
 
-                        System.out.println("Set computer one:\n");
+                        System.out.print("\nSet computer one:\n");
                         switch (getValidInput(1, 3)) {
                             case 1 -> setPlayerOne("easy");
                             case 2 -> setPlayerOne("medium");
                             case 3 -> setPlayerOne("hard");
                         }
 
-                        System.out.println("Set computer two:\n");
+                        System.out.print("\nSet computer two:\n");
                         switch (getValidInput(1, 3)) {
                             case 1 -> setPlayerTwo("easy");
                             case 2 -> setPlayerTwo("medium");
@@ -246,13 +261,13 @@ class PlayAssistant {
         }
 
     }
-    private int getValidInput(int minOption, int maxOption) {
+    public int getValidInput(int minOption, int maxOption) {
         Scanner scan = new Scanner(System.in);
         boolean isValid = false;
         int number = 0;
 
         do {
-            System.out.print("\n > ");
+            System.out.print("> ");
             String input = scan.next();
             if (input.length() > 1 || !Character.isDigit(input.charAt(0))) {
                 System.out.println("Please enter a valid response. Enter a number corresponding to the options provided.\n");
@@ -260,6 +275,9 @@ class PlayAssistant {
             }
             number = Integer.parseInt(input);
             isValid = number >= minOption && number <= maxOption;
+            if (!isValid) {
+                System.out.println("Please enter a valid response. Enter a number corresponding to the options provided.\n");
+            }
         } while (!isValid);
 
         return number;
@@ -329,14 +347,14 @@ class PlayAssistant {
     // Setters and Getters
 
     public void setPlayerOne(String playerOne) {
-        PlayerOne = playerOne;
+        PlayerOne = playerOne.toLowerCase();
     }
     public String getPlayerOne() {
         return PlayerOne;
     }
 
     public void setPlayerTwo(String playerTwo) {
-        PlayerTwo = playerTwo;
+        PlayerTwo = playerTwo.toLowerCase();
     }
     public String getPlayerTwo() {
         return PlayerTwo;
@@ -346,14 +364,14 @@ class PlayAssistant {
         this.gamesPlayed = gamesPlayed;
     }
     public int getGamesPlayed() {
-        return gamesPlayed;
+        return this.gamesPlayed;
     }
 
     public void setGamesToBePlayed(int gamesToBePlayed) {
         this.gamesToBePlayed = gamesToBePlayed;
     }
     public int getGamesToBePlayed() {
-        return gamesToBePlayed;
+        return this.gamesToBePlayed;
     }
 
     public void setDrawGames(int drawGames) {

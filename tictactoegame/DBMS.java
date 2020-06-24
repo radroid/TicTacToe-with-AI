@@ -226,18 +226,25 @@ public class DBMS {
         try (Connection conn = this.connect()) {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(query);
-            System.out.format("%-30s","Player Name");
-            System.out.format("%-15s","Matches Played");
-            System.out.format("%-15s","Wins");
-            System.out.format("%-15s","Draws");
-            System.out.format("%-15s\n", "Losses");
+            System.out.format("\n%-30s","PLAYER NAME");
+            System.out.format("%-15s","PLAYED");
+            System.out.format("%-15s","WINS");
+            System.out.format("%-15s","DRAWS");
+            System.out.format("%-15s", "LOSSES");
+
+//            if (!rs.next()) {
+//                System.out.print("No data has been saved. Play games to save data.\n\n");
+//                return;
+//            }
+
             while (rs.next()) {
-                System.out.format("%-30s",rs.getString("playerName"));
+                System.out.format("\n%-30s",rs.getString("playerName"));
                 System.out.format("%-15s",rs.getInt("matchesPlayed"));
                 System.out.format("%-15s",rs.getInt("Wins"));
                 System.out.format("%-15s",rs.getInt("Draws"));
-                System.out.format("%-15s\n",rs.getInt("Losses"));
+                System.out.format("%-15s",rs.getInt("Losses"));
             }
+            System.out.format("\n%50s\n\n","-- End of scoreboard --");
             rs.close();
             statement.close();
         } catch (SQLException e) {

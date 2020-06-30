@@ -91,44 +91,48 @@ class User extends Players {
 
             len = inputMat.length;
 
+            // check if more than two variables are input.
             if (len == 1 || input.isEmpty() || len > 2) {
                 System.out.println("Please enter only two numbers. Look at the coordinate system defined on the board.");
                 continue;
-            } // check if more than two variables are input.
+            }
 
-            if (input.trim().charAt(0) >= '0' && input.trim().charAt(0) <= '9') {
+            // check if first character of input is a number
+            if (Character.isDigit(input.trim().charAt(0))) {
                 result[0] = Integer.parseInt(inputMat[0]);
                 end1 = true;
             } else {
                 System.out.println("Enter only numerical values.");
                 continue;
-            } // check if first character of input is a number
+            }
 
+            // Check if last character of input is a number.
             char charAtEnd = input.trim().charAt(input.trim().length() - 1);
-
-            if (charAtEnd >= '0' && charAtEnd <= '9') {
+            if (Character.isDigit(charAtEnd)) {
                 result[1] = Integer.parseInt(inputMat[1]);
                 end2 = true;
             } else {
                 System.out.println("Enter only numerical values.");
                 continue;
-            } // Check if last character of input is a number.
+            }
 
+            // Assign corresponding index values
             colNum = result[0] - 1;
             rowNum = 3 - result[1];
 
+            // Check for coordinates within range.
             if (colNum > 2 || colNum < 0 || rowNum > 2 || rowNum < 0) {
                 System.out.println("Coordinates should be from 1 to 3!");
                 available = false;
                 continue;
-            } // Check for coordinates within range.
+            }
 
-            available = gameBoard.getCurrentBoard()[rowNum][colNum].equals("_"); // Check if the cell is available to play move.
-
+            // Check availability of the cell, restart loop if not available.
+            available = gameBoard.getCurrentBoard()[rowNum][colNum].equals("_");
             if (!available) {
                 System.out.println("Oops, this cell is occupied! Please choose another one.");
                 continue;
-            } // loop again if not available.
+            }
 
             result[0] = rowNum;
             result[1] = colNum;

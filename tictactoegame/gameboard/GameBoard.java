@@ -52,6 +52,7 @@ public class GameBoard {
         return this.currentBoard;
     }
 
+    // Converts the user input into array.
     public void setCurrentBoard(String inputCells) {
         String[][] currentBoard = new String[3][3];
         int loc = 0;
@@ -62,12 +63,13 @@ public class GameBoard {
             }
         }
         this.currentBoard = currentBoard;
-    } // Converts the user input into array.
+    }
 
     public int getGameNumber() {
         return gameNumber;
     }
 
+    // Print the current table/position of the game.
     public void printGameBoard() {
         System.out.println("  | 1 2 3 |");
         System.out.println("-------------");
@@ -79,7 +81,7 @@ public class GameBoard {
             System.out.println("|");
         }
         System.out.println("-------------");
-    } // Prints the current table/position of the game.
+    }
 
     public void playMove(int[] coordinates) {
 
@@ -94,12 +96,7 @@ public class GameBoard {
         setAvailableCells(coordinates);
     }
 
-    public void deleteMove(int[] coordinates) {
-        int rowNum = coordinates[0];
-        int colNum = coordinates[1];
-        this.currentBoard[rowNum][colNum] = "_";
-    }
-
+    // For Medium/hard level bot to test
     public void playMove(int[] coordinates, String player) {
 
         int rowNum = coordinates[0];
@@ -108,7 +105,13 @@ public class GameBoard {
         this.currentBoard[rowNum][colNum] = player;
 
         setState();
-    } // For Medium level bot to test
+    }
+
+    public void deleteMove(int[] coordinates) {
+        int rowNum = coordinates[0];
+        int colNum = coordinates[1];
+        this.currentBoard[rowNum][colNum] = "_";
+    }
 
     public int[] countXnOs() {
         int[] result = new int[2];

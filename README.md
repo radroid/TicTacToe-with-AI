@@ -9,6 +9,6 @@ The program allows the user to play Tic Tac Toe with a bot (Easy, Medium, Hard -
 ## For a Developer
 If you have any feedback please contact me @RajD007, always welcome some critical, constructive feedback on the clarity, simplicity or functionality of the code! :smile:
 
-**The main method is in tictactoegame/gameboard/Main.java** *Source folder: tictactoegame*
+**The main method is in tictactoegame/gameboard/Main.java** | *Source folder: tictactoegame*
 
 *P.S. - I am going to put through updates till I think it is at the best possible state (obviously considering my knowledge and abilities).*

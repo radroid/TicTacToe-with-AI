@@ -1,4 +1,4 @@
-# TicTacToe-with-AI
+# TicTacToe with AI
 This is my first project, created while learning at Hyperskills | JetBrains Academy. They have the same project as part of the curriculum, but this has many more additional functionalities and in all is more user-friendly.
 
 ## For a User
